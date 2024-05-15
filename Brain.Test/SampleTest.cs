@@ -1,3 +1,5 @@
+using BrainFuck;
+
 namespace Tests;
 
 [TestFixture]

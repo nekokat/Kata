@@ -16,40 +16,39 @@ public static class Kata
   
   public static string BrainLuck(string code, string input)
   {
-    Inititalisation();
+    Inititalisation(code, input);
     Execute();
     return Result?.ToString() ?? string.Empty;
   }
 
-  void Inititalisation()
+  static void Inititalisation(string code, string input)
   {
     Code = code.ToCharArray();
     Input = new Queue<byte>(input.ToCharArray().Select(x => (byte)x));
   }
 
-  void Execute()
+  static void Execute()
   {
-    foreach (char code in Code)
-    {
-      Interpretate(code).Invoke();
+    while(Position != Code.Length || Input.Count != 0){
+      Interpretate(Code[Position]).Invoke();
     }
   }
-  public Action Interpretate(char value)
+  
+  public static Action Interpretate(char value)
   {
-    return char switch {
+    return value switch {
         '>' => () => Position++,
         '<' => () => Position--,
         '+' => () => Data++,
         '-' => () => Data--,
         '.' => OutputCurrentValue,
-        ',' => GetValue,
+        ',' => () => Data = Input?.Dequeue(),
         '[' => NextIfZero,
-        ']' => PrevIfNotZero
-          _ => throw new ArgumentException();
+        ']' => PrevIfNotZero,
+          _ => throw new ArgumentException()
         
     };
   }
-  */
     
   public static void OutputCurrentValue()
   {
@@ -65,7 +64,7 @@ public static class Kata
   public static void NextIfZero()
   {
     if(Data == 0){
-      NextCell();
+      Position++;
     }
   }
   
@@ -73,7 +72,7 @@ public static class Kata
   {
     if(Data != 0)
     {
-      PrevCell();
+      Position--;
     }
   }
 }
