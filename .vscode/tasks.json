@@ -3,10 +3,10 @@
 	"tasks": [
 		{
 			"type": "dotnet",
-			"task": "watch Setting",
-			"file": "/home/neko/files/ModelX/Setting/Setting.csproj",
+			"task": "watch Brain.Fuck",
+			"file": "/home/neko/files/Kata/Brain.Fuck/BrainFuck.cs",
 			"problemMatcher": [],
-			"label": "dotnet: watch Setting"
+			"label": "dotnet: watch Brain.Fuck"
 		}
 	]
 }

@@ -24,13 +24,13 @@ public static class Kata
   static void Inititalisation(string code, string input)
   {
     Code = code.ToCharArray();
-    Input = new Queue<byte>(input.ToCharArray().Select(x => (byte)x));
+    Input = new Queue<byte>(Encoding.ASCII.GetBytes(input));
   }
 
   static void Execute()
   {
-    while(Position != Code.Count()){
-      if (Input.Count == 0 || Data.Count == 0)
+    while(true){
+      if (Position == Code.Count() || Input.Count == 0)
       {
         break;
       }
@@ -46,7 +46,7 @@ public static class Kata
         '+' => DataInc,
         '-' => DataDis,
         '.' => OutputCurrentValue,
-        ',' => () => Data.Push(Input.Dequeue()),
+        ',' => AddInputToData,
         '[' => NextIfZero,
         ']' => PrevIfNotZero,
           _ => throw new ArgumentException()
@@ -54,6 +54,12 @@ public static class Kata
     };
   }
   
+  public static void AddInputToData() {
+    if (Input.Count != 0){
+      Data.Push(Input.Dequeue());
+    }
+  }
+
   public static void DataInc()
   {
     byte value = Data.Pop();
