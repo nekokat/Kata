@@ -43,8 +43,8 @@ public static class Kata
     return value switch {
         '>' => () => Position++,
         '<' => () => Position--,
-        '+' => () => Data.Push(Data.Pop()++),
-        '-' => () => Data.Push(Data.Pop()--),
+        '+' => DataInc,
+        '-' => DataDis,
         '.' => OutputCurrentValue,
         ',' => () => Data.Push(Input.Dequeue()),
         '[' => NextIfZero,
@@ -53,7 +53,19 @@ public static class Kata
         
     };
   }
-    
+  
+  public static void DataInc()
+  {
+    byte value = Data.Pop();
+    Data.Push(value++);
+  }
+
+  public static void DataDis()
+  {
+    byte value = Data.Pop();
+    Data.Push(value--);
+  }
+
   public static void OutputCurrentValue()
   {
     Result.Append(Data.Pop());
