@@ -63,13 +63,13 @@ public static class Kata
   public static void DataInc()
   {
     byte value = Data.Pop();
-    Data.Push(value++);
+    Data.Push(++value < byte.MaxValue ? value : byte.MinValue);
   }
 
   public static void DataDis()
   {
     byte value = Data.Pop();
-    Data.Push(value--);
+    Data.Push(--value < byte.MinValue ? byte.MaxValue : value);
   }
 
   public static void OutputCurrentValue()
