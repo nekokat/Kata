@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\HalyapinMA\\Kata\\Brain.Test\\Tests.csproj": {}
+    "/run/media/neko/files/Kata/Brain.Test/Tests.csproj": {}
   },
   "projects": {
-    "C:\\Users\\HalyapinMA\\Kata\\Brain.Test\\Tests.csproj": {
+    "/run/media/neko/files/Kata/Brain.Fuck/BrainFuck.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\HalyapinMA\\Kata\\Brain.Test\\Tests.csproj",
-        "projectName": "Tests",
-        "projectPath": "C:\\Users\\HalyapinMA\\Kata\\Brain.Test\\Tests.csproj",
-        "packagesPath": "C:\\Users\\HalyapinMA\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\HalyapinMA\\Kata\\Brain.Test\\obj\\",
+        "projectUniqueName": "/run/media/neko/files/Kata/Brain.Fuck/BrainFuck.csproj",
+        "projectName": "BrainFuck",
+        "projectPath": "/run/media/neko/files/Kata/Brain.Fuck/BrainFuck.csproj",
+        "packagesPath": "/home/neko/.nuget/packages/",
+        "outputPath": "/run/media/neko/files/Kata/Brain.Fuck/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\HalyapinMA\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/home/neko/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -34,11 +32,69 @@
           "warnAsError": [
             "NU1605"
           ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.4, 8.0.4]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.104/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/run/media/neko/files/Kata/Brain.Test/Tests.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/run/media/neko/files/Kata/Brain.Test/Tests.csproj",
+        "projectName": "Tests",
+        "projectPath": "/run/media/neko/files/Kata/Brain.Test/Tests.csproj",
+        "packagesPath": "/home/neko/.nuget/packages/",
+        "outputPath": "/run/media/neko/files/Kata/Brain.Test/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/neko/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
         },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/run/media/neko/files/Kata/Brain.Fuck/BrainFuck.csproj": {
+                "projectPath": "/run/media/neko/files/Kata/Brain.Fuck/BrainFuck.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
         }
       },
       "frameworks": {
@@ -77,12 +133,18 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.4, 8.0.4]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.201/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.104/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

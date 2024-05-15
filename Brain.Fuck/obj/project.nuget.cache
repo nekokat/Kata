@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "8vo0E0qTkRZn9OZOozW2ldSCOXrqLPFjfJesPHFjoLif5bpIT8Kw4qHOtBo6BmUi26LdhSm1njziM3vk8GSlSw==",
+  "dgSpecHash": "yOVHgV1jSX5QYri8va1uiiBGBQF3/cfGq+lQWPhZGSxQJKWC1iJQLay41cVvf8mJEh5mqpQmk2bU5OvHGeArAg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\HalyapinMA\\Kata\\Brain.Fuck\\BrainFuck.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "/run/media/neko/files/Kata/Brain.Fuck/BrainFuck.csproj",
+  "expectedPackageFiles": [
+    "/home/neko/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.4/microsoft.aspnetcore.app.ref.8.0.4.nupkg.sha512"
+  ],
   "logs": []
 }
