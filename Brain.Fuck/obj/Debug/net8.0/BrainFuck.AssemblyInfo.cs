@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BrainFuck")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c220ad3c9428b7777a6f5d40bcb6f71b99ea1f7e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+40a3d87629e1e243035702b5d346ab7b67660729")]
 [assembly: System.Reflection.AssemblyProductAttribute("BrainFuck")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BrainFuck")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
