@@ -11,7 +11,7 @@ public static class Kata
   public static StringBuilder Result { get; set; } = new();
   public static char[] Code { get; set; }
   public static Queue<byte> Input { get; set; }
-  public static Stack<byte> Data { get; set; }
+  public static Stack<byte> Data { get; set; } = new();
   public static int Position { get; set; } = 0;
   
   public static string BrainLuck(string code, string input)
@@ -29,7 +29,7 @@ public static class Kata
 
   static void Execute()
   {
-    while(Position != Code.Length){
+    while(Position != Code.Count()){
       if (Input.Count == 0 || Data.Count == 0)
       {
         break;
