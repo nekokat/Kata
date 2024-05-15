@@ -8,17 +8,17 @@ namespace BrainFuck;
 public static class Kata
 {  
   
-  public static StringBuilder? Result { get; set; }
+  public static StringBuilder? Result { get; set; } = new();
   public static char[]? Code { get; set; }
   public static Queue<byte>? Input { get; set; }
-  public static byte? Data { get; set; } = 0;
+  public static Stack<byte> Data { get; set; }
   public static int Position { get; set; } = 0;
   
   public static string BrainLuck(string code, string input)
   {
     Inititalisation(code, input);
     Execute();
-    return Result?.ToString() ?? string.Empty;
+    return Result.ToString();
   }
 
   static void Inititalisation(string code, string input)
@@ -29,7 +29,11 @@ public static class Kata
 
   static void Execute()
   {
-    while(Position != Code.Length || Input.Count != 0){
+    while(Position != Code.Length){
+      if (Input.Count == 0 & Data.Count == 0)
+      {
+        break;
+      }
       Interpretate(Code[Position]).Invoke();
     }
   }
@@ -39,10 +43,10 @@ public static class Kata
     return value switch {
         '>' => () => Position++,
         '<' => () => Position--,
-        '+' => () => Data++,
-        '-' => () => Data--,
+        '+' => () => Data.Push(Data.Pop()++),
+        '-' => () => Data.Push(Data.Pop()--),
         '.' => OutputCurrentValue,
-        ',' => () => Data = Input?.Dequeue(),
+        ',' => () => Data.Push(Input.Dequeue()),
         '[' => NextIfZero,
         ']' => PrevIfNotZero,
           _ => throw new ArgumentException()
@@ -52,25 +56,19 @@ public static class Kata
     
   public static void OutputCurrentValue()
   {
-    Result?.Append(Data);
-    Data = 0;
+    Result.Append(Data.Pop());
   }
-  
-  public static void GetValue()
-  {
-    Data = Input?.Dequeue();
-  }
-  
+    
   public static void NextIfZero()
   {
-    if(Data == 0){
+    if(Data.Count == 0){
       Position++;
     }
   }
   
   public static void PrevIfNotZero()
   {
-    if(Data != 0)
+    if(Data.Count != 0)
     {
       Position--;
     }
