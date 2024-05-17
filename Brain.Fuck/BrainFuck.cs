@@ -5,31 +5,30 @@ using System.Collections.Generic;
 
 namespace BrainFuck;
 
-public class Kata
+public static class Kata
 {  
-  
-  public StringBuilder result = new();
-  public char[] code;
-  public Queue<byte> input;
-  public Stack<byte> data = new();
+  static StringBuilder result = new();
+  static char[] code;
+  static Queue<byte> input;
+  static Stack<byte> data = new();
   //TODO: don't change position
-  public int position = 0;
-  public Stack<int> loopPosition = new();
+  static int position = 0;
+  static Stack<int> loopPosition = new();
   
-  public string BrainLuck(string brainCode, string dataInput)
+  public static string BrainLuck(string brainCode, string dataInput)
   {
     Inititalisation(brainCode, dataInput);
     Execute();
     return result.ToString();
   }
 
-  void Inititalisation(string brainCode, string dataInput)
+ static void Inititalisation(string brainCode, string dataInput)
   {
     code = brainCode.ToCharArray();
     input = new Queue<byte>(Encoding.ASCII.GetBytes(dataInput));
   }
 
-  void Execute()
+  static void Execute()
   {
     while(true){
       if (position == code.Count() || input.Count == 0)
@@ -41,7 +40,7 @@ public class Kata
     }
   }
   
-  public Action Interpretate(char value)
+  static Action Interpretate(char value)
   {
     return value switch {
         '>' => () => position++,
@@ -57,14 +56,14 @@ public class Kata
     };
   }
   
-  public void AddInputToData() {
+  static void AddInputToData() {
     if (input.Count != 0){
       data.Push(input.Dequeue());
     }
     position++;
   }
 
-  public void DataInc()
+  static void DataInc()
   {
     byte value = data.Pop();
     byte insert = ++value < byte.MaxValue ? value : byte.MinValue;
@@ -72,7 +71,7 @@ public class Kata
     position++;
   }
 
-  public void DataDis()
+  static void DataDis()
   {
     byte value = data.Pop();
     byte insert = --value < byte.MinValue ? byte.MaxValue : value;
@@ -80,24 +79,29 @@ public class Kata
     position++;
   }
 
-  public void OutputCurrentValue()
+  static void OutputCurrentValue()
   {
     result.Append(data.Pop());
     loopPosition.Append(++position);
   }
-    
-  public void NextIfZero()
+  
+  //TODO: посмотреть условие
+  static void NextIfZero()
   {
-    if(data.Count == 0){
+    if(data.Peek() != 0){
       position++;
     }
   }
   
-  public static void PrevIfNotZero()
+  //TODO: посмотреть условие
+  static void PrevIfNotZero()
   {
-    if(data.Count != 0)
+    if(data.Peek() == 0 || data.Count == 0)
     {
       position = loopPosition.Peek();
     }
-    else{ position ++;}
+    else{
+      position ++;
+    }
+  }
 }
