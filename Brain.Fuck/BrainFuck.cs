@@ -14,7 +14,6 @@ public class Kata
   public Stack<byte> data = new();
   //TODO: don't change position
   public int position = 0;
-  public bool loop = false;
   public Stack<int> loopPosition = new();
   
   public string BrainLuck(string brainCode, string dataInput)
@@ -84,15 +83,13 @@ public class Kata
   public void OutputCurrentValue()
   {
     result.Append(data.Pop());
-    position++;
-    loopPosition.Append(position);
+    loopPosition.Append(++position);
   }
     
   public void NextIfZero()
   {
     if(data.Count == 0){
       position++;
-      loop = true;
     }
   }
   
@@ -102,6 +99,5 @@ public class Kata
     {
       position = loopPosition.Peek();
     }
-    else{ position ++; }
-  }
+    else{ position ++;}
 }
