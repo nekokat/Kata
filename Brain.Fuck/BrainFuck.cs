@@ -85,6 +85,7 @@ public class Kata
   {
     result.Append(data.Pop());
     position++;
+    loopPosition.Append(position);
   }
     
   public void NextIfZero()
@@ -99,7 +100,8 @@ public class Kata
   {
     if(data.Count != 0)
     {
-      position--;
+      position = loopPosition.Peek();
     }
+    else{ position ++; }
   }
 }
