@@ -13,8 +13,9 @@ namespace Tests;
         [TestCase("Codewars", ",+[-.,+]", "Codewarsÿ")]
         [TestCase("Codewars", ",[.[-],]","Codewars")]
         [TestCase("H", ",>,<[>[->+>+<<]>>[-<<+>>]<<<-]>>.","H")]
-        public void SampleTest(string actiual, string code, string input)
+        public void SampleTest(string actual, string code, string input)
         {
-            Assert.That(actiual, Is.EqualTo(Kata.BrainLuck(code, input)));
+            string expected = Kata.BrainLuck(code, input);
+            Assert.That(expected, Is.EqualTo(actual));
         }
     }

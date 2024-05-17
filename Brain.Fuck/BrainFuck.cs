@@ -5,30 +5,32 @@ using System.Collections.Generic;
 
 namespace BrainFuck;
 
-public static class Kata
+public class Kata
 {  
   
-  public static StringBuilder result = new();
-  public static char[] code;
-  public static Queue<byte> input;
-  public static Stack<byte> data = new();
-  //TDOD: don't change position
-  public static int position = 0;
+  public StringBuilder result = new();
+  public char[] code;
+  public Queue<byte> input;
+  public Stack<byte> data = new();
+  //TODO: don't change position
+  public int position = 0;
+  public bool loop = false;
+  public Stack<int> loopPosition = new();
   
-  public static string BrainLuck(string brainCode, string dataInput)
+  public string BrainLuck(string brainCode, string dataInput)
   {
     Inititalisation(brainCode, dataInput);
     Execute();
     return result.ToString();
   }
 
-  static void Inititalisation(string brainCode, string dataInput)
+  void Inititalisation(string brainCode, string dataInput)
   {
     code = brainCode.ToCharArray();
     input = new Queue<byte>(Encoding.ASCII.GetBytes(dataInput));
   }
 
-  static void Execute()
+  void Execute()
   {
     while(true){
       if (position == code.Count() || input.Count == 0)
@@ -40,7 +42,7 @@ public static class Kata
     }
   }
   
-  public static Action Interpretate(char value)
+  public Action Interpretate(char value)
   {
     return value switch {
         '>' => () => position++,
@@ -56,14 +58,14 @@ public static class Kata
     };
   }
   
-  public static void AddInputToData() {
+  public void AddInputToData() {
     if (input.Count != 0){
       data.Push(input.Dequeue());
     }
     position++;
   }
 
-  public static void DataInc()
+  public void DataInc()
   {
     byte value = data.Pop();
     byte insert = ++value < byte.MaxValue ? value : byte.MinValue;
@@ -71,7 +73,7 @@ public static class Kata
     position++;
   }
 
-  public static void DataDis()
+  public void DataDis()
   {
     byte value = data.Pop();
     byte insert = --value < byte.MinValue ? byte.MaxValue : value;
@@ -79,16 +81,17 @@ public static class Kata
     position++;
   }
 
-  public static void OutputCurrentValue()
+  public void OutputCurrentValue()
   {
     result.Append(data.Pop());
     position++;
   }
     
-  public static void NextIfZero()
+  public void NextIfZero()
   {
     if(data.Count == 0){
       position++;
+      loop = true;
     }
   }
   
