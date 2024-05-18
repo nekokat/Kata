@@ -11,7 +11,7 @@ public static class Kata
   static char[] code;
   static Queue<byte> input;
   static Stack<byte> data = new();
-  //TODO: don't change position
+
   static int position = 0;
   static Stack<int> loopPosition = new();
   
@@ -80,26 +80,31 @@ public static class Kata
     position++;
   }
   
-  //TODO: посмотреть условие
   static void NextIfZero()
   {
-    if(data.Count != 0 & data.Peek() != 0){
-      loopPosition.Push(++position);
-    }
-    else
-    {
-      while (code[position] != ']')
+    if(data.Count != 0){
+      if(data.Peek() != 0){
+        loopPosition.Push(++position);
+      }
+      else
       {
-        position++;
-        if(code[position] == ']')
-        {
-          loopPosition.Pop();
-        }
+        EndLoop();
+      }
+    }
+    position++;
+  }
+  
+  static void EndLoop()
+  {
+    while (code[position] != ']')
+    {
+      position++;
+      if(code[position] == ']')
+      {
+        loopPosition.Pop();
       }
     }
   }
-  
-  //TODO: посмотреть условие
   static void PrevIfNotZero()
   {
     if(loopPosition.Count != 0)
