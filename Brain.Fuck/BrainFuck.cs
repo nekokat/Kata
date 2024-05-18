@@ -30,7 +30,7 @@ public static class Kata
 
   static void Execute()
   {
-    while(position < code.Length){
+    while(input.Count != 0 || data.Count != 0){
       Interpretate(code[position]).Invoke();
     }
   }
@@ -43,18 +43,19 @@ public static class Kata
         '+' => DataInc,
         '-' => DataDis,
         '.' => OutputCurrentValue,
-        ',' => AddInputToData,
+        ',' => AddValueToData,
         '[' => NextIfZero,
         ']' => PrevIfNotZero,
           _ => throw new ArgumentException()
     };
   }
   
-  static void AddInputToData() {
-    if (input.Count != 0){
+  static void AddValueToData()
+  {
+    if (input.Count != 0){  
       data.Push(input.Dequeue());
+      position++;
     }
-    position++;
   }
 
   static void DataInc()
@@ -82,14 +83,18 @@ public static class Kata
   //TODO: посмотреть условие
   static void NextIfZero()
   {
-    if(data.Count != 0){
-      loopPosition.Append(++position);
+    if(data.Count != 0 & data.Peek() != 0){
+      loopPosition.Push(++position);
     }
     else
     {
       while (code[position] != ']')
       {
         position++;
+        if(code[position] == ']')
+        {
+          loopPosition.Pop();
+        }
       }
     }
   }
