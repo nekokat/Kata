@@ -30,12 +30,7 @@ public static class Kata
 
   static void Execute()
   {
-    while(true){
-      if (position == code.Count() || input.Count == 0)
-      {
-        break;
-      }
-      int p = position;
+    while(position < code.Length){
       Interpretate(code[position]).Invoke();
     }
   }
@@ -49,7 +44,6 @@ public static class Kata
         '-' => DataDis,
         '.' => OutputCurrentValue,
         ',' => AddInputToData,
-        //TODO: create jmp
         '[' => NextIfZero,
         ']' => PrevIfNotZero,
           _ => throw new ArgumentException()
@@ -82,26 +76,33 @@ public static class Kata
   static void OutputCurrentValue()
   {
     result.Append((char)data.Pop());
-    loopPosition.Append(++position);
+    position++;
   }
   
   //TODO: посмотреть условие
   static void NextIfZero()
   {
-    if(data.Peek() != 0){
-      position++;
+    if(data.Count != 0){
+      loopPosition.Append(++position);
+    }
+    else
+    {
+      while (code[position] != ']')
+      {
+        position++;
+      }
     }
   }
   
   //TODO: посмотреть условие
   static void PrevIfNotZero()
   {
-    if(data.Peek() == 0 || data.Count == 0)
+    if(loopPosition.Count != 0)
     {
       position = loopPosition.Peek();
     }
     else{
-      position ++;
+      position++;
     }
   }
 }
