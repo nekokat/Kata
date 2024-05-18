@@ -81,7 +81,7 @@ public static class Kata
 
   static void OutputCurrentValue()
   {
-    result.Append(data.Pop());
+    result.Append((char)data.Pop());
     loopPosition.Append(++position);
   }
   
