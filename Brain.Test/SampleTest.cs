@@ -9,9 +9,9 @@ namespace Tests;
         public void Setup(){}
 
         [TestCase("Hello World!", "++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.", "")]
-        [TestCase("\u0048", ",>,<[>[->+>+<<]>>[-<<+>>]<<<-]>>.","\u0008\u0009")]
-        [TestCase("Codewars", ",[.[-],]","Codewars\u0000")]
-        [TestCase("Codewars", ",+[-.,+]", "Codewarsÿ")]
+        [TestCase("H", ",>,<[>[->+>+<<]>>[-<<+>>]<<<-]>>.","\x0008\x0009")]
+        [TestCase("Codewars", ",[.[-],]","Codewars\x0000")]
+        [TestCase("Codewars", ",+[-.,+]", "Codewars\x0597")]
         public static void SampleTest(string actual, string code, string input)
         {
             string expected = Kata.BrainLuck(code, input);

@@ -71,7 +71,7 @@ public static class Kata
     position = 0;
     data = new byte[30000];
     code = brainCode.ToCharArray();
-    input = new Queue<byte>(Encoding.ASCII.GetBytes(dataInput));
+    input = new Queue<byte>(Encoding.Unicode.GetBytes(dataInput).Where(x => x != 0).ToArray());
   }
 
   /// <summary>
@@ -101,7 +101,7 @@ public static class Kata
       '+' => IncreaseData,
       '-' => DecreaseData,
       //output the byte at the data pointer.
-      '.' => () => result.Append(Convert.ToChar(data[pointer])),
+      '.' => () => result.Append((char)data[pointer]),
       //accept one byte of input, storing its value in the byte at the data pointer.
       ',' => () => input.TryDequeue(out data[pointer]),
       '[' => Loop,
