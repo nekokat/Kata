@@ -5,16 +5,25 @@ namespace Tests;
 [TestFixture]
     public class BrainLuckTest
     {        
-        [SetUp]
-        public void Setup(){}
+        (string actual, string code, string input)[] data ;
 
-        [TestCase("Hello World!", "++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.", "")]
-        [TestCase("H", ",>,<[>[->+>+<<]>>[-<<+>>]<<<-]>>.","\x0008\x0009")]
-        [TestCase("Codewars", ",[.[-],]","Codewars\x0000")]
-        [TestCase("Codewars", ",+[-.,+]", "Codewars\x0597")]
-        public static void SampleTest(string actual, string code, string input)
+        [SetUp]
+        public void Setup()
         {
-            string expected = Kata.BrainLuck(code, input);
-            Assert.That(expected, Is.EqualTo(actual));
+            data = new (string actual, string code, string input)[] {
+                ("Hello World!", "++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.", ""),
+                (char.ConvertFromUtf32(72), ",>,<[>[->+>+<<]>>[-<<+>>]<<<-]>>.", char.ConvertFromUtf32(8)+char.ConvertFromUtf32(9)),
+                ("Codewars", ",[.[-],]","Codewars"+char.ConvertFromUtf32(0)),
+                ("Codewars", ",+[-.,+]","Codewars"+char.ConvertFromUtf32(255))
+            };
+        }
+
+        [Test]
+        public void SampleTest()
+        {
+            foreach ((string actual, string code, string input) item in data){
+                string expected = Kata.BrainLuck(item.code, item.input);
+                Assert.That(expected, Is.EqualTo(item.actual));
+            }
         }
     }

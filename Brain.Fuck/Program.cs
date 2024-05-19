@@ -15,6 +15,6 @@ namespace BrainFuck;
         {
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
-            Console.WriteLine(Kata.BrainLuck(",>,<[>[->+>+<<]>>[-<<+>>]<<<-]>>.", char.ConvertFromUtf32(8)+char.ConvertFromUtf32(9)));
+            Console.WriteLine(Kata.BrainLuck(",>,<[>[->+>+<<]>>[-<<+>>]<<<-]>>.", char.ConvertFromUtf32(255)));
         }
     }
