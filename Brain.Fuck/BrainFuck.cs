@@ -91,9 +91,9 @@ public static class Kata
   {
     return value switch {
         //increment the data pointer (to point to the next cell to the right).
-        '>' => () => pointer++,
+        '>' => () => ++pointer,
         //decrement the data pointer (to point to the next cell to the left).
-        '<' => () => pointer--,
+        '<' => () => --pointer,
         '+' => IncreaseData,
         '-' => DecreaseData,
         //output the byte at the data pointer.
@@ -111,8 +111,8 @@ public static class Kata
   /// </summary>
   static void IncreaseData()
   {
-    byte value = data[pointer];
-    data[pointer] = ++value < byte.MaxValue ? value : byte.MinValue;
+    byte value = ++data[pointer];
+    data[pointer] = value < byte.MaxValue ? value : byte.MinValue;
   }
 
   /// <summary>
@@ -120,8 +120,8 @@ public static class Kata
   /// </summary>
   static void DecreaseData()
   {
-    byte value = data[pointer];
-    data[pointer] = --value < byte.MinValue ? byte.MaxValue : value;
+    byte value = --data[pointer];
+    data[pointer] = value < byte.MinValue ? byte.MaxValue : value;
   }
   
   /// <summary>
@@ -169,6 +169,12 @@ public static class Kata
   /// </summary>
   static void EndLoop()
   {
-    loopPosition.TryPop(out position);
+    if(loopPosition.Count != 0 & data[pointer] != 0){
+      position =  loopPosition.Peek();
+    }
+    else
+    {
+      loopPosition.Pop();
+    }
   }
 }
