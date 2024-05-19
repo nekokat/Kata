@@ -66,7 +66,7 @@ public static class Kata
  static void Inititalisation(string brainCode, string dataInput)
   {
     code = brainCode.ToCharArray();
-    input = new Queue<byte>(Encoding.ASCII.GetBytes(dataInput));
+    input = new Queue<byte>(Encoding.ASCII.GetBytes(dataInput + "\u00ff"));
   }
 
   /// <summary>
@@ -74,10 +74,9 @@ public static class Kata
   /// </summary>
   static void Execute()
   {
-    while(position < code.Count())
+    while(position < code.Length)
     {
-      Interpretate(code[position]).Invoke();  
-      position++;
+      Interpretate(code[position]).Invoke();
     } 
   }
 
@@ -89,21 +88,24 @@ public static class Kata
   /// <exception cref="ArgumentException"></exception>
   static Action Interpretate(char value)
   {
-    return value switch {
-        //increment the data pointer (to point to the next cell to the right).
-        '>' => () => ++pointer,
-        //decrement the data pointer (to point to the next cell to the left).
-        '<' => () => --pointer,
-        '+' => IncreaseData,
-        '-' => DecreaseData,
-        //output the byte at the data pointer.
-        '.' => () => result.Append((char)data[pointer]),
-        //accept one byte of input, storing its value in the byte at the data pointer.
-        ',' => () => input.TryDequeue(out data[pointer]),
-        '[' => Loop,
-        ']' => EndLoop,
-          _ => throw new ArgumentException()
-    };
+    try{
+      return value switch {
+          //increment the data pointer (to point to the next cell to the right).
+          '>' => () => ++pointer,
+          //decrement the data pointer (to point to the next cell to the left).
+          '<' => () => --pointer,
+          '+' => IncreaseData,
+          '-' => DecreaseData,
+          //output the byte at the data pointer.
+          '.' => () => result.Append((char)data[pointer]),
+          //accept one byte of input, storing its value in the byte at the data pointer.
+          ',' => () => input.TryDequeue(out data[pointer]),
+          '[' => Loop,
+          ']' => EndLoop,
+            _ => throw new ArgumentException()
+      };
+    }
+    finally { position++; }
   }
   
   /// <summary>
