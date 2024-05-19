@@ -5,16 +5,52 @@ using System.Collections.Generic;
 
 namespace BrainFuck;
 
+/// <summary>
+/// 
+/// </summary>
 public static class Kata
 {  
+  /// <summary>
+  /// 
+  /// </summary>
   static StringBuilder result = new();
-  static char[] code;
-  static Queue<byte> input;
-  static Stack<byte> data = new();
 
+  /// <summary>
+  /// 
+  /// </summary>
+  static char[] code;
+
+  /// <summary>
+  /// 
+  /// </summary>
+  static Queue<byte> input;
+
+  /// <summary>
+  /// 
+  /// </summary>
+  static byte[] data = new byte[1000];
+
+  /// <summary>
+  /// 
+  /// </summary>
   static int position = 0;
+
+  /// <summary>
+  /// 
+  /// </summary>
+  static int pointer = 0;
+
+  /// <summary>
+  /// 
+  /// </summary>
   static Stack<int> loopPosition = new();
   
+  /// <summary>
+  /// 
+  /// </summary>
+  /// <param name="brainCode"></param>
+  /// <param name="dataInput"></param>
+  /// <returns></returns>
   public static string BrainLuck(string brainCode, string dataInput)
   {
     Inititalisation(brainCode, dataInput);
@@ -22,24 +58,42 @@ public static class Kata
     return result.ToString();
   }
 
+  /// <summary>
+  /// 
+  /// </summary>
+  /// <param name="brainCode"></param>
+  /// <param name="dataInput"></param>
  static void Inititalisation(string brainCode, string dataInput)
   {
     code = brainCode.ToCharArray();
     input = new Queue<byte>(Encoding.ASCII.GetBytes(dataInput));
   }
 
+  /// <summary>
+  /// 
+  /// </summary>
   static void Execute()
   {
-    while(input.Count != 0 || data.Count != 0){
-      Interpretate(code[position]).Invoke();
-    }
+    while(position < code.Count())
+    {
+      Interpretate(code[position]).Invoke();  
+      position++;
+    } 
   }
-  
+
+  /// <summary>
+  /// 
+  /// </summary>
+  /// <param name="value"></param>
+  /// <returns></returns>
+  /// <exception cref="ArgumentException"></exception>
   static Action Interpretate(char value)
   {
     return value switch {
-        '>' => () => position++,
-        '<' => () => position--,
+        //increment the data pointer (to point to the next cell to the right).
+        '>' => () => ++pointer,
+        //decrement the data pointer (to point to the next cell to the left).
+        '<' => () => ++pointer,
         '+' => DataInc,
         '-' => DataDis,
         '.' => OutputCurrentValue,
@@ -50,69 +104,85 @@ public static class Kata
     };
   }
   
+  /// <summary>
+  /// accept one byte of input, storing its value in the byte at the data pointer.
+  /// </summary>
   static void AddValueToData()
   {
     if (input.Count != 0){  
-      data.Push(input.Dequeue());
-      position++;
+      data[pointer] = input.Dequeue();
     }
   }
 
+  /// <summary>
+  /// increment (increase by one, truncate overflow: 255 + 1 = 0) the byte at the data pointer.
+  /// </summary>
   static void DataInc()
   {
-    byte value = data.Pop();
-    byte insert = ++value < byte.MaxValue ? value : byte.MinValue;
-    data.Push(insert);
-    position++;
+    byte value = data[pointer];
+    data[pointer] = ++value < byte.MaxValue ? value : byte.MinValue;
   }
 
+  /// <summary>
+  /// decrement (decrease by one, treat as unsigned byte: 0 - 1 = 255 ) the byte at the data pointer.
+  /// </summary>
   static void DataDis()
   {
-    byte value = data.Pop();
-    byte insert = --value < byte.MinValue ? byte.MaxValue : value;
-    data.Push(insert);
-    position++;
+    byte value = data[pointer];
+    data[pointer] = --value < byte.MinValue ? byte.MaxValue : value;
   }
 
+  /// <summary>
+  /// output the byte at the data pointer.
+  /// </summary>
   static void OutputCurrentValue()
   {
-    result.Append((char)data.Pop());
-    position++;
+    result.Append((char)data[pointer]);
   }
   
+  /// <summary>
+  /// Loop. If the byte at the data pointer is zero, 
+  /// then instead of moving the instruction pointer forward to the next command,
+  /// jump it forward to the command after the matching ] command.
+  /// </summary>
   static void NextIfZero()
   {
-    if(data.Count != 0){
-      if(data.Peek() != 0){
-        loopPosition.Push(++position);
-      }
-      else
-      {
-        EndLoop();
-      }
-    }
-    position++;
+    Action act = data[pointer] != 0 ? StartLoop : JumpEndLoop;
+    act.Invoke();
+  }
+
+  /// <summary>
+  /// Loop support command
+  /// </summary>
+  static void StartLoop()
+  {
+    loopPosition.Push(position);
   }
   
-  static void EndLoop()
+  /// <summary>
+  /// Move to position in end of current loop.
+  /// </summary>
+  static void JumpEndLoop()
   {
-    while (code[position] != ']')
+    while (loopPosition.Count != 0)
     {
-      position++;
-      if(code[position] == ']')
+      if(code[++position] == ']')
       {
         loopPosition.Pop();
       }
     }
   }
+
+  /// <summary>
+  /// End of current loop. If the byte at the data pointer is nonzero,
+  /// then instead of moving the instruction pointer forward to the next command,
+  /// jump it back to the command after the matching [ command.
+  /// </summary>
   static void PrevIfNotZero()
   {
-    if(loopPosition.Count != 0)
+    if (data[pointer] != 0 & loopPosition.Count != 0)
     {
       position = loopPosition.Peek();
-    }
-    else{
-      position++;
     }
   }
 }
