@@ -69,9 +69,9 @@ public static class Kata
     bracketsCounter = 0;
     pointer = 0;
     position = 0;
-    data = new byte[30000];
+    data = new byte[1000];
     code = brainCode.ToCharArray();
-    input = new Queue<byte>(Encoding.Unicode.GetBytes(dataInput).Where(x => x != 0).ToArray());
+    input = new Queue<byte>(dataInput.ToCharArray().Select(c => (byte)c));
   }
 
   /// <summary>
