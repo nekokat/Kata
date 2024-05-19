@@ -69,7 +69,7 @@ public static class Kata
     loopPosition = new();
     pointer = 0;
     position = 0;
-    data = new byte[1000];
+    data = new byte[30000];
     code = brainCode.ToCharArray();
     input = new Queue<byte>(Encoding.ASCII.GetBytes(dataInput));
   }
@@ -102,14 +102,19 @@ public static class Kata
       '+' => IncreaseData,
       '-' => DecreaseData,
       //output the byte at the data pointer.
-      '.' => () => result.Append((char)data[pointer]),
+      '.' => () => result.Append(Convert.ToChar(data[pointer])),
       //accept one byte of input, storing its value in the byte at the data pointer.
       ',' => () => input.TryDequeue(out data[pointer]),
       '[' => Loop,
       ']' => EndLoop,
-        _ => throw new ArgumentException()
+        _ => None
     };
   }
+
+  /// <summary>
+  /// Do Nothing
+  /// </summary>
+  static void None(){}
 
   /// <summary>
   /// increment (increase by one, truncate overflow: 255 + 1 = 0) the byte at the data pointer.
@@ -136,23 +141,18 @@ public static class Kata
   /// </summary>
   static void Loop()
   {
-    if (data[pointer] != 0)
+    if (data[pointer] == 0)
     {
       loopPosition.Push(position);
-    }
-    else{
-      while (loopPosition.Count != 0)
+      while (loopPosition.Count >= 1)
       {
+        position++;
         if (code[position] == '[')
         {
           loopPosition.Push(position);
-        }
-
-        if(code[position] == ']')
-        {
+        } else if(code[position] == ']'){
           loopPosition.Pop();
         }
-        position++;
       }
     }
   }
@@ -164,12 +164,20 @@ public static class Kata
   /// </summary>
   static void EndLoop()
   {
-    if(loopPosition.Count != 0 & data[pointer] != 0){
-      position = loopPosition.Peek();
-    }
-    else
+    if (data[pointer] != 0)
     {
-      loopPosition.Pop();
+      loopPosition.Push(position);
+      while (loopPosition.Count >= 1)
+      {
+        position--;
+        if(code[position] == ']'){
+          loopPosition.Push(position);
+        }
+        else if(code[position] == '[')
+        {
+          loopPosition.Pop();
+        }
+      }
     }
   }
 }
