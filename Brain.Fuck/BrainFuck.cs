@@ -131,7 +131,7 @@ public static class Kata
   /// </summary>
   static void Loop()
   {
-    Action act = data[pointer] == 0 ? MoveToEndOfLoop : MoveInsideLoop;
+    Action act = data[pointer] == 0 ? IgnoreLoop : MoveInsideLoop;
     act.Invoke();
   }
 
@@ -145,7 +145,7 @@ public static class Kata
   /// <summary>
   /// Move to position in end of current loop.
   /// </summary>
-  static void MoveToEndOfLoop()
+  static void IgnoreLoop()
   {
     while (loopPosition.Count != 0)
     {
