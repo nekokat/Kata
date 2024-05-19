@@ -91,33 +91,25 @@ public static class Kata
   {
     return value switch {
         //increment the data pointer (to point to the next cell to the right).
-        '>' => () => ++pointer,
+        '>' => () => pointer++,
         //decrement the data pointer (to point to the next cell to the left).
-        '<' => () => ++pointer,
-        '+' => DataInc,
-        '-' => DataDis,
-        '.' => OutputCurrentValue,
-        ',' => AddValueToData,
-        '[' => NextIfZero,
-        ']' => PrevIfNotZero,
+        '<' => () => pointer--,
+        '+' => IncreaseData,
+        '-' => DecreaseData,
+        //output the byte at the data pointer.
+        '.' => () => result.Append((char)data[pointer]),
+        //accept one byte of input, storing its value in the byte at the data pointer.
+        ',' => () => input.TryDequeue(out data[pointer]),
+        '[' => Loop,
+        ']' => EndLoop,
           _ => throw new ArgumentException()
     };
   }
   
   /// <summary>
-  /// accept one byte of input, storing its value in the byte at the data pointer.
-  /// </summary>
-  static void AddValueToData()
-  {
-    if (input.Count != 0){  
-      data[pointer] = input.Dequeue();
-    }
-  }
-
-  /// <summary>
   /// increment (increase by one, truncate overflow: 255 + 1 = 0) the byte at the data pointer.
   /// </summary>
-  static void DataInc()
+  static void IncreaseData()
   {
     byte value = data[pointer];
     data[pointer] = ++value < byte.MaxValue ? value : byte.MinValue;
@@ -126,18 +118,10 @@ public static class Kata
   /// <summary>
   /// decrement (decrease by one, treat as unsigned byte: 0 - 1 = 255 ) the byte at the data pointer.
   /// </summary>
-  static void DataDis()
+  static void DecreaseData()
   {
     byte value = data[pointer];
     data[pointer] = --value < byte.MinValue ? byte.MaxValue : value;
-  }
-
-  /// <summary>
-  /// output the byte at the data pointer.
-  /// </summary>
-  static void OutputCurrentValue()
-  {
-    result.Append((char)data[pointer]);
   }
   
   /// <summary>
@@ -145,31 +129,36 @@ public static class Kata
   /// then instead of moving the instruction pointer forward to the next command,
   /// jump it forward to the command after the matching ] command.
   /// </summary>
-  static void NextIfZero()
+  static void Loop()
   {
-    Action act = data[pointer] != 0 ? StartLoop : JumpEndLoop;
+    Action act = data[pointer] == 0 ? MoveToEndOfLoop : MoveInsideLoop;
     act.Invoke();
   }
 
   /// <summary>
-  /// Loop support command
+  /// 
   /// </summary>
-  static void StartLoop()
+  static void MoveInsideLoop()
   {
     loopPosition.Push(position);
   }
-  
   /// <summary>
   /// Move to position in end of current loop.
   /// </summary>
-  static void JumpEndLoop()
+  static void MoveToEndOfLoop()
   {
     while (loopPosition.Count != 0)
     {
-      if(code[++position] == ']')
+      if (code[position] == '[')
+      {
+        loopPosition.Push(position);
+      }
+
+      if(code[position] == ']')
       {
         loopPosition.Pop();
       }
+      position++;
     }
   }
 
@@ -178,11 +167,8 @@ public static class Kata
   /// then instead of moving the instruction pointer forward to the next command,
   /// jump it back to the command after the matching [ command.
   /// </summary>
-  static void PrevIfNotZero()
+  static void EndLoop()
   {
-    if (data[pointer] != 0 & loopPosition.Count != 0)
-    {
-      position = loopPosition.Peek();
-    }
+    loopPosition.TryPop(out position);
   }
 }
