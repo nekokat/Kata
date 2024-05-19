@@ -40,6 +40,7 @@ public static class Kata
   /// </summary>
   static int pointer;
 
+  //TODO: bracketsCounter -> Stack<int>
   /// <summary>
   /// Loop bracket counter
   /// </summary>
