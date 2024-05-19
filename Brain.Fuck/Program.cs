@@ -15,6 +15,6 @@ namespace BrainFuck;
         {
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
-            Console.WriteLine(Kata.BrainLuck(File.ReadAllText(@"/run/media/neko/files/Kata/Brain.Fuck/Files/mandelbrot.bf"), ""));
+            Console.WriteLine(Kata.BrainLuck(File.ReadAllText(@"./Brain.Fuck/Files/Beer.bf"), ""));
         }
     }
