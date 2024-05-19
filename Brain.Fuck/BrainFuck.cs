@@ -131,34 +131,25 @@ public static class Kata
   /// </summary>
   static void Loop()
   {
-    Action act = data[pointer] == 0 ? IgnoreLoop : MoveInsideLoop;
-    act.Invoke();
-  }
-
-  /// <summary>
-  /// 
-  /// </summary>
-  static void MoveInsideLoop()
-  {
-    loopPosition.Push(position);
-  }
-  /// <summary>
-  /// Move to position in end of current loop.
-  /// </summary>
-  static void IgnoreLoop()
-  {
-    while (loopPosition.Count != 0)
+    if (data[pointer] == 0)
     {
-      if (code[position] == '[')
+      while (loopPosition.Count != 0)
       {
-        loopPosition.Push(position);
-      }
+        if (code[position] == '[')
+        {
+          loopPosition.Push(position);
+        }
 
-      if(code[position] == ']')
-      {
-        loopPosition.Pop();
+        if(code[position] == ']')
+        {
+          loopPosition.Pop();
+        }
+        position++;
       }
-      position++;
+    }
+    else
+    {
+      loopPosition.Push(position);
     }
   }
 
