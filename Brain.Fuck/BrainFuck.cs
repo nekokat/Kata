@@ -13,7 +13,7 @@ public static class Kata
   /// <summary>
   /// 
   /// </summary>
-  static StringBuilder result = new();
+  static StringBuilder result;
 
   /// <summary>
   /// 
@@ -28,22 +28,22 @@ public static class Kata
   /// <summary>
   /// 
   /// </summary>
-  static byte[] data = new byte[255];
+  static byte[] data;
 
   /// <summary>
   /// 
   /// </summary>
-  static int position = 0;
+  static int position;
 
   /// <summary>
   /// 
   /// </summary>
-  static int pointer = 0;
+  static int pointer;
 
   /// <summary>
   /// 
   /// </summary>
-  static Stack<int> loopPosition = new();
+  static Stack<int> loopPosition;
   
   /// <summary>
   /// 
@@ -65,6 +65,11 @@ public static class Kata
   /// <param name="dataInput"></param>
  static void Inititalisation(string brainCode, string dataInput)
   {
+    result = new();
+    loopPosition = new();
+    pointer = 0;
+    position = 0;
+    data = new byte[1000];
     code = brainCode.ToCharArray();
     input = new Queue<byte>(Encoding.ASCII.GetBytes(dataInput));
   }
@@ -105,7 +110,7 @@ public static class Kata
         _ => throw new ArgumentException()
     };
   }
-  
+
   /// <summary>
   /// increment (increase by one, truncate overflow: 255 + 1 = 0) the byte at the data pointer.
   /// </summary>
@@ -131,8 +136,11 @@ public static class Kata
   /// </summary>
   static void Loop()
   {
-    if (data[pointer] == 0)
+    if (data[pointer] != 0)
     {
+      loopPosition.Push(position);
+    }
+    else{
       while (loopPosition.Count != 0)
       {
         if (code[position] == '[')
@@ -147,10 +155,6 @@ public static class Kata
         position++;
       }
     }
-    else
-    {
-      loopPosition.Push(position);
-    }
   }
 
   /// <summary>
@@ -160,8 +164,8 @@ public static class Kata
   /// </summary>
   static void EndLoop()
   {
-    if(loopPosition.Count != 0 & data[pointer] != 0 & position < code.Length){
-      position =  loopPosition.Peek();
+    if(loopPosition.Count != 0 & data[pointer] != 0){
+      position = loopPosition.Peek();
     }
     else
     {
