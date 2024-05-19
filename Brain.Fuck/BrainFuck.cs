@@ -6,51 +6,51 @@ using System.Collections.Generic;
 namespace BrainFuck;
 
 /// <summary>
-/// 
+/// INTERPRETATION OF THE PROGRAMMING LANGUAGE "BRAINFU*K"
 /// </summary>
 public static class Kata
 {  
   /// <summary>
-  /// 
+  /// Output value
   /// </summary>
   static StringBuilder result;
 
   /// <summary>
-  /// 
+  /// Interpreted program code
   /// </summary>
   static char[] code;
 
   /// <summary>
-  /// 
+  /// Input data for program code
   /// </summary>
   static Queue<byte> input;
 
   /// <summary>
-  /// 
+  /// Data pointer
   /// </summary>
   static byte[] data;
 
   /// <summary>
-  /// 
+  /// Current carriage position
   /// </summary>
   static int position;
 
   /// <summary>
-  /// 
+  /// Сell number in the date pointer
   /// </summary>
   static int pointer;
 
   /// <summary>
-  /// 
+  /// Loop bracket counter
   /// </summary>
-  static Stack<int> loopPosition;
+  static int bracketsCounter;
   
   /// <summary>
-  /// 
+  /// Starts calculations
   /// </summary>
-  /// <param name="brainCode"></param>
-  /// <param name="dataInput"></param>
-  /// <returns></returns>
+  /// <param name="brainCode">Interpreted program code</param>
+  /// <param name="dataInput">Input data for program code</param>
+  /// <returns>Result of program execution</returns>
   public static string BrainLuck(string brainCode, string dataInput)
   {
     Inititalisation(brainCode, dataInput);
@@ -59,14 +59,14 @@ public static class Kata
   }
 
   /// <summary>
-  /// 
+  /// Initializing the program and assigning the necessary values
   /// </summary>
-  /// <param name="brainCode"></param>
-  /// <param name="dataInput"></param>
+  /// <param name="brainCode">Interpreted program code</param>
+  /// <param name="dataInput">Input data for program code</param>
  static void Inititalisation(string brainCode, string dataInput)
   {
     result = new();
-    loopPosition = new();
+    bracketsCounter = 0;
     pointer = 0;
     position = 0;
     data = new byte[30000];
@@ -75,7 +75,7 @@ public static class Kata
   }
 
   /// <summary>
-  /// 
+  /// Execute program
   /// </summary>
   static void Execute()
   {
@@ -87,11 +87,10 @@ public static class Kata
   }
 
   /// <summary>
-  /// 
+  /// Interpretation of the operator into action
   /// </summary>
-  /// <param name="value"></param>
-  /// <returns></returns>
-  /// <exception cref="ArgumentException"></exception>
+  /// <param name="value">Symbolic representation of operator</param>
+  /// <returns>Action assigned to operator</returns>
   static Action Interpretate(char value)
   {
     return value switch {
@@ -112,12 +111,12 @@ public static class Kata
   }
 
   /// <summary>
-  /// Do Nothing
+  /// Do nothing (skipping a character in the code)
   /// </summary>
   static void None(){}
 
   /// <summary>
-  /// increment (increase by one, truncate overflow: 255 + 1 = 0) the byte at the data pointer.
+  /// Increment (increase by one, truncate overflow: 255 + 1 = 0) the byte at the data pointer.
   /// </summary>
   static void IncreaseData()
   {
@@ -143,15 +142,15 @@ public static class Kata
   {
     if (data[pointer] == 0)
     {
-      loopPosition.Push(position);
-      while (loopPosition.Count >= 1)
+      bracketsCounter++;
+      while (bracketsCounter >= 1)
       {
         position++;
         if (code[position] == '[')
         {
-          loopPosition.Push(position);
+          bracketsCounter++;
         } else if(code[position] == ']'){
-          loopPosition.Pop();
+          bracketsCounter--;
         }
       }
     }
@@ -166,16 +165,17 @@ public static class Kata
   {
     if (data[pointer] != 0)
     {
-      loopPosition.Push(position);
-      while (loopPosition.Count >= 1)
+      bracketsCounter++;
+      while (bracketsCounter >= 1)
       {
         position--;
-        if(code[position] == ']'){
-          loopPosition.Push(position);
+        if(code[position] == ']')
+        {
+          bracketsCounter++;
         }
         else if(code[position] == '[')
         {
-          loopPosition.Pop();
+          bracketsCounter--;
         }
       }
     }

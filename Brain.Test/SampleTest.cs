@@ -11,7 +11,7 @@ namespace Tests;
         [TestCase("Hello World!", "++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.", "")]
         [TestCase("\u0048", ",>,<[>[->+>+<<]>>[-<<+>>]<<<-]>>.","\u0008\u0009")]
         [TestCase("Codewars", ",[.[-],]","Codewars\u0000")]
-        //[TestCase("Codewars", ",+[-.,+]", "Codewars\u00ff")]
+        [TestCase("Codewars", ",+[-.,+]", "Codewarsÿ")]
         public static void SampleTest(string actual, string code, string input)
         {
             string expected = Kata.BrainLuck(code, input);
